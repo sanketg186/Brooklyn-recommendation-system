@@ -1,0 +1,24 @@
+{% extends 'movies/base.html' %}
+{% block body %}
+     <ul class="rig columns-3">
+    {% for name,url in movienameurl.items %}
+    <li><img src="{{ url }}" >
+      </li>
+    {% endfor %}
+    </ul>
+<div class="pagination">
+    <span class="step-links">
+        {% if movies.has_previous %}
+            <a href="?page={{ movies.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ movies.number }} of {{ movies.paginator.num_pages }}.
+        </span>
+
+        {% if movies.has_next %}
+            <a href="?page={{ movies.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

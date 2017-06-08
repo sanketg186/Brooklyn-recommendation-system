@@ -1,0 +1,56 @@
+{% extends 'movies/base.html' %}
+{% block body %}
+    <ul class="rig columns-3">
+    {% for name,url in movienameurl.items %}
+    <li><img src="{{ url }}" >
+        <p>Rate</p>
+         <form class="form-horizontal" role="form" action="{% url 'movies:rate'%}" method="post" enctype="multipart/form-data">
+                     {% csrf_token %}
+             <input type="hidden" name="movie_name" value="{{ name }}">
+                <select name="movie_rate"  >
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <input type="submit" value="submit"/>
+         </form>
+   <!-- <span class="starRating">
+        <input id="rating5" type="radio" name="rating" value="5">
+        <label for="rating5">5</label>
+        <input id="rating4" type="radio" name="rating" value="4">
+        <label for="rating4">4</label>
+        <input id="rating3" type="radio" name="rating" value="3">
+        <label for="rating3">3</label>
+        <input id="rating2" type="radio" name="rating" value="2">
+        <label for="rating2">2</label>
+        <input id="rating1" type="radio" name="rating" value="1">
+        <label for="rating1">1</label>
+      </span> -->
+
+
+
+
+    </li>
+    {% endfor %}
+    </ul>
+<div class="pagination">
+    <span class="step-links">
+        {% if movies.has_previous %}
+            <a href="?page={{ movies.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ movies.number }} of {{ movies.paginator.num_pages }}.
+        </span>
+
+        {% if movies.has_next %}
+            <a href="?page={{ movies.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}
+<script src="static/movies/js/main.js"></script>
