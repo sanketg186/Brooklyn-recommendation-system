@@ -219,4 +219,4 @@ def search(request):
 
     found_entries = Movies.objects.filter(entry_query)
     print(found_entries.all())
-    return render('search/search_results.html', {'query_string': query_string, 'found_entries': found_entries })
+    return render(request, 'movies/search_results.html', {'query_string': query_string, 'found_entries': found_entries })

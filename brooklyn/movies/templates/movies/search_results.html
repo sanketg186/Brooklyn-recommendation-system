@@ -1,5 +1,9 @@
 {% extends 'movies/base.html' %}
 {% block body %}
-    {% for movie_name in  %}
-
+    <h1>Search results</h1>
+    <ul>
+    {% for movie_name in found_entries %}
+        <li>{{movie_name}}</li>
+    {% endfor %}
+    </ul>
 {% endblock %}
