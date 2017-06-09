@@ -25,7 +25,6 @@ $(document).ready(function(){
 
 
 
-<h1>show movies</h1>
   <div id="flip">Add preference</div>
 <div id="panel">
                 <form class="form-horizontal" role="form" action="{% url 'movies:pref'%}" method="post" enctype="multipart/form-data">
@@ -46,11 +45,15 @@ $(document).ready(function(){
                 </form>
 
     </div>
+  <h1>Popular movies</h1>
 
   <ul class="rig columns-3">
-    {% for name,url in movienameurl.items %}
-    <li><img src="{{ url }}" ></li>
-        <p>{{ name }}<p>
+    {% for info in movie_detail %}
+    <li><img src="{{ info.2 }}" >
+    <h2>{{ info.0 }}</h2>
+        <p>{{ info.1 }}</p>
+    </li>
+
     {% endfor %}
     </ul>
 {% endblock %}

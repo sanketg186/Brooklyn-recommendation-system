@@ -16,7 +16,7 @@ from .search import get_query
 import itertools
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
-import csv
+from .popular_movies import pop_mov
 # Create your views here.
 
 
@@ -32,7 +32,9 @@ genrelist = {'genreaction': 'Action', 'genreadventure': 'Adventure',
 
 def index(request):
     template_name = 'movies/index.html'
-    return render(request, template_name, {'genrelist': genrelist})
+    movie_title,movie_overview,movie_poster = pop_mov()
+    movie_detail = zip(movie_title, movie_overview, movie_poster)
+    return render(request, template_name, {'genrelist': genrelist, 'movie_detail': movie_detail})
 
 
 def pref(request):
@@ -93,7 +95,7 @@ def pref(request):
 
 
 
-    return render(request, 'movies/index.html', {'pref': prefe, 'genrelist': genrelist, 'movienameurl':movienameurl})
+    return render(request, 'movies/contentbased.html', {'pref': prefe, 'genrelist': genrelist, 'movienameurl':movienameurl})
 
 
 def logout_user(request):
@@ -142,10 +144,7 @@ def register(request):
 
 
 def rate(request):
-    print("sssdsdsddsds")
     if request.method == 'POST':
-        #rateobj = RateForm(request.POST)
-        #userdata = rateobj.save(commit=False)
         user = request.user
         movie_title = request.POST.get('movie_name')
         rating = request.POST.get('movie_rate')
@@ -182,7 +181,7 @@ def similar_movie(request):
         movie_name.append(x[1::])
     #print(movie_name[0])
     #print(movie_rating[0])
-    user_movie_rate = dict(zip(movie_name,movie_rating))
+    user_movie_rate = dict(zip(movie_name, movie_rating))
     user_movies = sorted(user_movie_rate.items(), key=operator.itemgetter(1), reverse=True)
     movie_name = []
     for k, v in user_movies:
@@ -218,5 +217,4 @@ def search(request):
         entry_query = get_query(query_string, ['movieId', 'title','genres'])
 
     found_entries = Movies.objects.filter(entry_query)
-    print(found_entries.all())
     return render(request, 'movies/search_results.html', {'query_string': query_string, 'found_entries': found_entries })
