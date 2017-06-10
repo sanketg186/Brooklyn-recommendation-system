@@ -1,9 +1,24 @@
 {% extends 'movies/base.html' %}
 {% block body %}
-    <h1>Search results</h1>
-    <ul>
-    {% for movie_name in found_entries %}
-        <li>{{movie_name}}</li>
+    <h1 style="color: white">Search results</h1>
+    <ul class="rig columns-3">
+    {% for movie_name,url in found_entries.items %}
+        <li><img src="{{ url }}">
+            {{movie_name}}
+         <form class="form-horizontal" role="form" action="{% url 'movies:rate'%}" method="post" enctype="multipart/form-data">
+                     {% csrf_token %}
+             <input type="hidden" name="movie_name" value="{{ movie_name }}">
+                <select name="movie_rate"  >
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <input type="submit" value="submit"/>
+         </form>
+        </li>
     {% endfor %}
     </ul>
 {% endblock %}

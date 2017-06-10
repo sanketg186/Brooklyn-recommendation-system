@@ -1,0 +1,12 @@
+{% extends 'movies/base.html' %}
+{% block body %}
+     <ul class="rig columns-3">
+    {% for info in movienameurl %}
+    <li><img src="{{ info.1 }}" align="left">
+         <div align="right"><img src="http://pngimg.com/uploads/star/star_PNG1590.png" width="16" height="16" align="right"/><h2>{{ info.2 }}</h2></div>
+    <h2 align="left" style="font-family: Sans-Serif">{{ info.0 }}</h2>
+    </li>
+
+    {% endfor %}
+    </ul>
+{% endblock %}

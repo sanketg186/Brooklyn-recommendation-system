@@ -27,6 +27,8 @@ class GenreSelect(models.Model):
 
 
 class UserRating(models.Model):
+    class Meta:
+        unique_together = (('user', 'movie_title'),)
     user = models.CharField(max_length=250)
     movie_title = models.CharField(max_length=250, default=0)
     rating = models.IntegerField(default=0)

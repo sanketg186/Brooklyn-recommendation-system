@@ -32,8 +32,12 @@ genrelist = {'genreaction': 'Action', 'genreadventure': 'Adventure',
 
 def index(request):
     template_name = 'movies/index.html'
-    movie_title,movie_overview,movie_poster = pop_mov()
-    movie_detail = zip(movie_title, movie_overview, movie_poster)
+    movie_title = []
+    movie_overview = []
+    movie_poster = []
+    movie_rating = []
+    movie_title, movie_overview, movie_poster, movie_rating = pop_mov()
+    movie_detail = zip(movie_title, movie_overview, movie_poster, movie_rating)
     return render(request, template_name, {'genrelist': genrelist, 'movie_detail': movie_detail})
 
 
@@ -148,8 +152,15 @@ def rate(request):
         user = request.user
         movie_title = request.POST.get('movie_name')
         rating = request.POST.get('movie_rate')
-        rateobj = UserRating(user = user, movie_title = movie_title, rating = rating)
-        rateobj.save()
+        x=UserRating.objects.filter(user=user, movie_title= movie_title)
+        if not x:
+            print(x)
+            rateobj = UserRating(user = user, movie_title = movie_title, rating = rating)
+            rateobj.save()
+        else:
+            rateobj=UserRating.objects.get(user=user,movie_title=movie_title)
+            rateobj.rating=rating
+            rateobj.save()
     movie_list = []
     movie_list = get_all_movies()
     paginator = Paginator(movie_list, 3)
@@ -213,8 +224,31 @@ def search(request):
     found_entries = None
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
-
         entry_query = get_query(query_string, ['movieId', 'title','genres'])
+        found_entries = Movies.objects.filter(entry_query)
+    movies = []
+    for temp in found_entries:
+        movies.append(temp.title)
+    movieid = getmovieid(movies)
+    moviurl = getmovieposter(movieid)
+    movienameurl = dict(zip(movies, moviurl))
+    print(movies)
+    return render(request, 'movies/search_results.html', {'query_string': query_string, 'found_entries': movienameurl})
 
-    found_entries = Movies.objects.filter(entry_query)
-    return render(request, 'movies/search_results.html', {'query_string': query_string, 'found_entries': found_entries })
+
+def rated_movies(request):
+    user = request.user
+    user_movies = UserRating.objects.filter(user=user)
+    movies = []
+    movies_rate=[]
+    if not user_movies:
+        print("no movies")
+    else:
+        for temp in user_movies:
+            movies.append(temp.movie_title)
+            movies_rate.append(temp.rating)
+        movieid = getmovieid(movies)
+        moviurl = getmovieposter(movieid)
+        movienameurl = zip(movies, moviurl,movies_rate)
+        print(movies)
+    return render(request,'movies/rated_movies.html', {'movienameurl': movienameurl})

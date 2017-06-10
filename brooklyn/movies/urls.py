@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^rate/$', views.rate, name='rate'),
     url(r'^similar_movie/$', views.similar_movie, name='similar_movie'),
     url(r'^search/$', views.search, name='search'),
+    url(r'^rated_movies/$', views.rated_movies, name='rated_movies'),
 ]

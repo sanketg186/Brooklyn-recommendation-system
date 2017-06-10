@@ -24,12 +24,13 @@ $(document).ready(function(){
 
 
 
-<h1>Movies based on your preference</h1>
+<h1 style="color: white">Movies based on your preference</h1>
 
   <ul class="rig columns-3">
     {% for name,url in movienameurl.items %}
-    <li><img src="{{ url }}" ></li>
-        <p>{{ name }}<p>
+    <li><img src="{{ url }}" > <p>{{ name }}<p>
+    </li>
+
     {% endfor %}
     </ul>
 {% endblock %}

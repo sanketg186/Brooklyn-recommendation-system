@@ -6,7 +6,7 @@ x=movies.popular()
 movie_title = []
 movie_poster = []
 movie_overview = []
-
+movie_rating = []
 
 def pop_mov():
 
@@ -14,4 +14,5 @@ def pop_mov():
         movie_title.append(y['title'])
         movie_poster.append('http://image.tmdb.org/t/p/w185'+y['poster_path'])
         movie_overview.append(y['overview'])
-    return movie_title, movie_overview, movie_poster
+        movie_rating.append(y['vote_average'])
+    return movie_title, movie_overview, movie_poster,movie_rating

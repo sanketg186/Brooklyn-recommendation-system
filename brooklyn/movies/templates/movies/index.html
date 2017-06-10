@@ -45,13 +45,14 @@ $(document).ready(function(){
                 </form>
 
     </div>
-  <h1>Popular movies</h1>
+  <h1 style="color: white">Popular movies</h1>
 
   <ul class="rig columns-3">
     {% for info in movie_detail %}
-    <li><img src="{{ info.2 }}" >
-    <h2>{{ info.0 }}</h2>
-        <p>{{ info.1 }}</p>
+    <li><img src="{{ info.2 }}" align="left">
+         <div align="right"><img src="http://pngimg.com/uploads/star/star_PNG1590.png" width="16" height="16" align="right"/><p>{{ info.3 }}</p></div>
+    <h2 align="left" style="font-family: Sans-Serif">{{ info.0 }}</h2>
+        <p align="middle">{{ info.1 }}</p>
     </li>
 
     {% endfor %}
