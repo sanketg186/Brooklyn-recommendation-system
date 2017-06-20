@@ -16,7 +16,7 @@ def imdb_id_from_title(title):
 
 
 def getposter(movieid):
-    CONFIG_PATTERN = "https://api.themoviedb.org/3/movie/"+str(movieid)+"?api_key=72d232fb4cb9aa3fa5049aec63a1ebf9"
+    CONFIG_PATTERN = "https://api.themoviedb.org/3/movie/"+str(movieid)+"?api_key=PUT YOUR API_KEY HERE"
     print(CONFIG_PATTERN)
     KEY = '72d232fb4cb9aa3fa5049aec63a1ebf9'
     url = CONFIG_PATTERN.format(key=KEY)
